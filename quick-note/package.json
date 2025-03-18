@@ -7,14 +7,19 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@loadable/component": "^5.16.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-error-boundary": "^5.0.0",
+    "react-router-dom": "^7.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/loadable__component": "^5.13.9",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
@@ -26,6 +31,7 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
-    "vite-plugin-static-copy": "^2.3.0"
+    "vite-plugin-static-copy": "^2.3.0",
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }
