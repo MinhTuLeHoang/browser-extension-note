@@ -5,25 +5,25 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vite.dev/config/
 export default defineConfig({
-  // root: './src',
-  // base: '',
+  root:  'src',
+  base: '',
   plugins: [
     react(),
-    // tsconfigPaths(),
-    // // viteStaticCopy({
-    // //   targets: [
-    // //     {
-    // //       src: '../public/manifest.json',
-    // //       dest: '../.',
-    // //     }
-    // //   ],
-    // // }),
+    tsconfigPaths(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: '../public/*',
+          dest: '.',
+        }
+      ],
+    }),
   ],
   build: {
-    outDir: 'build',
+    outDir: '../build',
     rollupOptions: {
       input: {
-        main: './index.html',
+        main: './src/index.html',
       },
     },
   },

@@ -9,9 +9,56 @@ Currently, two official plugins are available:
 
 ## Info
 
-Node: 20.19.0
-npm: 10.8.2
----> using pnpm: 9.15.0
+Node: 22.16.0
+npm: 10.9.2
+pnpm: 10.25.0
+
+## Running & Testing Locally
+
+To test this browser extension on your local machine, follow these steps:
+
+1.  **Install dependencies**:
+    ```bash
+    pnpm install
+    ```
+2.  **Build the project**:
+    ```bash
+    pnpm run build
+    ```
+    This command will generate a `build/` folder containing the compiled code and the extension manifest.
+
+3.  **Load the extension in Chrome**:
+    - Open Chrome and navigate to `chrome://extensions/`.
+    - Enable **Developer mode** using the toggle in the top right corner.
+    - Click the **Load unpacked** button.
+    - Navigate to this project folder and select the `quick-note/build` directory.
+
+4.  **Open the Note app**:
+    - Click the Extensions icon (puzzle piece) in your browser toolbar.
+    - Find **QuickNote** and (optionally) pin it for easy access.
+    - Click the icon to open the note editor popup.
+
+> [!TIP]
+> **Fast UI Testing**: For quicker UI development, you can run `pnpm run dev`. This will open a local dev server (usually at `http://localhost:5173`) where you can see and edit the popup's interface directly in a browser tab with Hot Module Replacement (HMR). However, browser extension APIs (like `chrome.storage`) only work when the extension is loaded in Chrome as described in Step 3.
+
+
+## How to Deploy/Update
+
+When you make changes to the code, follows these steps to "deploy" them to your local browser extension:
+
+1.  **Modify the source**: Make your changes in the `src/` directory.
+2.  **Update version (optional)**: If you want to track versions, update the `"version"` field in `public/manifest.json`.
+3.  **Rebuild**:
+    ```bash
+    pnpm run build
+    ```
+4.  **Reload in Chrome**:
+    - Go back to `chrome://extensions/`.
+    - Find the **QuickNote** extension.
+    - Click the **Reload icon** (circular arrow) on the extension card to apply your latest changes.
+
+---
+
 
 ## Expanding the ESLint configuration
 

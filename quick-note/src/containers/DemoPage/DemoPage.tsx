@@ -1,9 +1,16 @@
-import { useState } from 'react';
-import reactLogo from '/src/assets/react.svg';
-import viteLogo from '/vite.svg';
+import { useEffect, useState } from 'react';
+import reactLogo from 'assets/react.svg';
+import viteLogo from '/../public/vite.svg';
 
 const DemoPage = () => {
 	const [count, setCount] = useState(0);
+
+	useEffect(() => {
+		console.log('load page demo');
+		console.log(import.meta.env.VITE_APP_TITLE) // "123"
+		console.log(import.meta.env.BASE_URL)
+		console.log(import.meta.env.MODE)
+	}, [])
 
 	return (
 		<>
@@ -17,9 +24,9 @@ const DemoPage = () => {
 			</div>
 			<h1>Vite + React</h1>
 			<div className="card">
-				<button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+				<button style={{ background: 'blue' }} onClick={() => setCount((count) => count + 1)}>count is {count}</button>
 				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
+					Edit <code>src/App.tsx</code> and save to test HMR a
 				</p>
 			</div>
 			<p className="read-the-docs">Made by passioned dev Minh Tú Lê Hoàng</p>

@@ -1,16 +1,16 @@
 import { pagePaths } from "@/common/constants/PagePath";
 import { useNavigate } from "react-router-dom";
 
-const HomePage = () => {
+const MenuPage = () => {
 	const navigate = useNavigate();
 
 	return (
 		<div>
-			Home Page
+			Menu Page
 
 			<button onClick={() => navigate(pagePaths.Demo)}>navigate</button>
 		</div>
 	);
 };
 
-export default HomePage;
+export default MenuPage;
