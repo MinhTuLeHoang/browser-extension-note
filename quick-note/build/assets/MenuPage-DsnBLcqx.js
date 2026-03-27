@@ -1,1 +1,0 @@
-import{u as t,j as e,p as s}from"./main-CUCZ9w0z.js";const i=()=>{const a=t();return e.jsxs("div",{children:["Menu Page",e.jsx("button",{onClick:()=>a(s.Demo),children:"navigate"})]})};export{i as default};

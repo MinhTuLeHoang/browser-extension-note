@@ -1,0 +1,1 @@
+import{a as t,j as a,p as s}from"./main-DAJouB1W.js";const n=()=>{const e=t();return a.jsxs("div",{children:["Home Page",a.jsx("button",{onClick:()=>e(s.Demo),children:"navigate"})]})};export{n as default};

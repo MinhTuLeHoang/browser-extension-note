@@ -13,7 +13,7 @@ export const generalRoutes: RouteProps[] = [
 	{ path: pagePaths.Menu, element: <MenuPage /> },
 
 	// First page of extension
-	{ path: '/index.html', element: <DemoPage /> },
+	{ path: '/index.html', element: <MenuPage /> },
 	{ path: '*', element: <NavigationCenterPage /> },
 ];
 
