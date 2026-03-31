@@ -1,6 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 import { ArrowLeft, ArrowRight, Home, Settings } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { pagePaths, notePagePaths } from "@/common/constants/PagePath";
 
 const NavWrapper = styled.nav`
@@ -26,9 +27,9 @@ const NavGroup = styled.div`
 	gap: 12px;
 `;
 
-const NavItem = styled.div`
-	cursor: pointer;
-	color: var(--text-secondary);
+const NavItem = styled.div<{ $disabled?: boolean }>`
+	cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
+	color: ${(props) => (props.$disabled ? "rgba(255, 255, 255, 0.1)" : "var(--text-secondary)")};
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -38,7 +39,11 @@ const NavItem = styled.div`
 	background: rgba(255, 255, 255, 0.03);
 	border: 1px solid rgba(255, 255, 255, 0.05);
 	transition: all 0.2s ease;
+	opacity: ${(props) => (props.$disabled ? 0.4 : 1)};
 
+	${(props) =>
+		!props.$disabled &&
+		`
 	&:hover {
 		color: white;
 		background: rgba(255, 255, 255, 0.08);
@@ -49,6 +54,7 @@ const NavItem = styled.div`
 	&:active {
 		transform: translateY(1px);
 	}
+	`}
 `;
 
 const AppName = styled.h2`
@@ -65,19 +71,47 @@ const AppName = styled.h2`
 
 const NavBar = () => {
 	const navigate = useNavigate();
+	const [canGoBack, setCanGoBack] = React.useState(false);
+	const [canGoForward, setCanGoForward] = React.useState(false);
 
-	const goBack = () => navigate(-1);
-	const goForward = () => navigate(1);
+	React.useEffect(() => {
+		const updateHistoryState = () => {
+			const state = window.history.state;
+			const idx = state && typeof state.idx === 'number' ? state.idx : 0;
+			setCanGoBack(idx > 0);
+			setCanGoForward(idx < window.history.length - 1);
+		};
+
+		updateHistoryState();
+		window.addEventListener('popstate', updateHistoryState);
+		return () => window.removeEventListener('popstate', updateHistoryState);
+	}, []);
+
+	// Also update on location change
+	const location = useLocation();
+	React.useEffect(() => {
+		const state = window.history.state;
+		const idx = state && typeof state.idx === 'number' ? state.idx : 0;
+		setCanGoBack(idx > 0);
+		setCanGoForward(idx < window.history.length - 1);
+	}, [location]);
+
+	const goBack = () => {
+		if (canGoBack) navigate(-1);
+	};
+	const goForward = () => {
+		if (canGoForward) navigate(1);
+	};
 	const goHome = () => navigate(pagePaths.Menu);
 	const goSettings = () => navigate(notePagePaths.Setting);
 
 	return (
 		<NavWrapper>
 			<NavGroup>
-				<NavItem onClick={goBack} title="Back">
+				<NavItem onClick={goBack} title="Back" $disabled={!canGoBack}>
 					<ArrowLeft size={18} />
 				</NavItem>
-				<NavItem onClick={goForward} title="Forward">
+				<NavItem onClick={goForward} title="Forward" $disabled={!canGoForward}>
 					<ArrowRight size={18} />
 				</NavItem>
 				<NavItem onClick={goHome} title="Home">

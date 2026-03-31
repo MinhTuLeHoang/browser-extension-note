@@ -1,0 +1,1 @@
+import{a as e,j as t,n}from"./main-C7_2cCKT.js";const o=()=>{const a=e();return t.jsxs("div",{children:["QuickNotePage",t.jsx("button",{onClick:()=>a(n.Intro),children:"navigate"})]})};export{o as default};

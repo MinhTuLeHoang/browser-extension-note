@@ -22,6 +22,7 @@ This design system is focused on a **Soft, Modern, and Neon Glass** aesthetic. I
 ### 3. Typography
 - **Modern & Soft**: Preference for rounded, clean sans-serif fonts such as **Inter**, **Outfit**, or **SF Pro**.
 - **Hierarchy**: Use strong, neon-colored titles for focus.
+- **Interactions**: All text should have `user-select: none` to create an app-like experience (preventing accidental highlighting).
 
 ### 4. Interactive Elements
 - **Hover**: Increase background opacity or shift neon glow intensity.
@@ -37,6 +38,10 @@ This design system is focused on a **Soft, Modern, and Neon Glass** aesthetic. I
   --bg-dark: #0a0a0c;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  user-select: none;
 }
 ```
 

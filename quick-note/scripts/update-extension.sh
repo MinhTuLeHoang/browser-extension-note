@@ -56,7 +56,18 @@ npm version "$VERSION_TYPE" --no-git-tag-version
 NEW_VERSION=$(jq -r '.version' package.json)
 echo -e "${GREEN}${CHECK} New version in package.json: ${NEW_VERSION}${NC}"
 
-# 3. Build the project
+# 3. Sync version in public/manifest.json
+MANIFEST_PATH="$PROJECT_ROOT/public/manifest.json"
+if [ -f "$MANIFEST_PATH" ]; then
+    echo -e "${YELLOW}${HOURGLASS} Syncing version to public/manifest.json...${NC}"
+    # Use temporary file to avoid issues with jq writing to the same file
+    jq ".version = \"$NEW_VERSION\"" "$MANIFEST_PATH" > "$MANIFEST_PATH.tmp" && mv "$MANIFEST_PATH.tmp" "$MANIFEST_PATH"
+    echo -e "${GREEN}${CHECK} Synchronized manifest version to ${NEW_VERSION}${NC}"
+else
+    echo -e "${RED}${ERROR} public/manifest.json not found!${NC}"
+fi
+
+# 4. Build the project
 echo -e "${YELLOW}${HOURGLASS} Building project...${NC}"
 pnpm run build
 if [ $? -ne 0 ]; then
@@ -64,22 +75,14 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 4. Sync version in build/manifest.json
-MANIFEST_PATH="$PROJECT_ROOT/build/manifest.json"
-if [ -f "$MANIFEST_PATH" ]; then
-    echo -e "${YELLOW}${HOURGLASS} Syncing version to build/manifest.json...${NC}"
-    # Use temporary file to avoid issues with jq writing to the same file
-    jq ".version = \"$NEW_VERSION\"" "$MANIFEST_PATH" > "$MANIFEST_PATH.tmp" && mv "$MANIFEST_PATH.tmp" "$MANIFEST_PATH"
-    echo -e "${GREEN}${CHECK} Synchronized manifest version to ${NEW_VERSION}${NC}"
-else
-    echo -e "${RED}${ERROR} build/manifest.json not found!${NC}"
-fi
 
 # 5. Open Chrome to reload extension
 EXTENSION_URL="chrome://extensions/?id=nafoojofgbbiikchcomoahijpemdkhoh"
 echo -e "${CYAN}${ROCKET} Opening browser to reload extension...${NC}"
-# Use the open command on macOS to open Chrome
-open -a "Google Chrome" "$EXTENSION_URL" || open "$EXTENSION_URL"
+
+# Call the helper script to manage Chrome tabs
+bash "$SCRIPT_DIR/open-chrome-url.sh" "$EXTENSION_URL"
 
 echo "------------------------------------------------------------"
 echo -e "${GREEN}${CHECK} Extension update process complete!${NC}"
+exit 0
